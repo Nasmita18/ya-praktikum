@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -24,8 +24,8 @@ public class OrderFormTest {
     @BeforeEach
     public void setUp() {
 
-//        driver = new FirefoxDriver();
-        driver = new ChromeDriver();
+        driver = new FirefoxDriver();
+//        driver = new ChromeDriver();
         driver.get("https://qa-scooter.praktikum-services.ru/");
     }
 
@@ -75,11 +75,17 @@ public class OrderFormTest {
         //подтверждаем заказ
         orderFormPage.clickOrderConfirmationYesButton();
 
+        // Ожидаем, пока появится элемент с номером заказа
+        orderFormPage.waitForOrderNumber();
 
-        WebElement successfulOrder = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='Order_ModalHeader__3FDaJ']")));
+        // Нажимаем на кнопку "Посмотреть статус"
+        orderFormPage.clickTrackOrderButton();
 
-        //проверяем что заказ успешно оформлен
-        assertTrue(successfulOrder.getText().contains("Заказ оформлен"));
+        // Ожидаем появления надписи "Самокат на складе"
+        WebElement waitForTrackStatus = orderFormPage.waitForTrackStatus();
+
+        //проверяем что появилась страница с оформленным заказом
+        assertTrue(waitForTrackStatus.isDisplayed());
     }
 
 

@@ -1,10 +1,14 @@
 package com.example.demo.pageObjects;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.regex.Pattern;
 
 public class OrderFormPage {
 
@@ -120,6 +124,23 @@ public class OrderFormPage {
     public void clickOrderConfirmationYesButton() {
         WebElement yesButton = driver.findElement(By.xpath("//button[@class='Button_Button__ra12g Button_Middle__1CSJM' and text()='Да']"));
         yesButton.click();
+    }
+
+    // Ждем появления номера заказа
+    public void waitForOrderNumber() {
+        wait.until(ExpectedConditions.textMatches(By.xpath("//div[@class='Order_Text__2broi']"), Pattern.compile("\\d+")));
+
+    }
+
+    // Нажимаем на кнопку "Посмотреть статус"
+    public void clickTrackOrderButton() {
+        WebElement trackOrderButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='Order_NextButton__1_rCA']//button")));
+        trackOrderButton.click();
+    }
+
+    // Ждем появления надписи "Самокат на складе"
+    public WebElement waitForTrackStatus() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='Track_Order__1S6E9' and contains(text(), 'Самокат на складе')]")));
     }
 
 
