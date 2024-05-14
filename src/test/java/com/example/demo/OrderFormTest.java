@@ -7,11 +7,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class OrderFormTest {
 
@@ -20,6 +23,8 @@ public class OrderFormTest {
 
     @BeforeEach
     public void setUp() {
+
+//        driver = new FirefoxDriver();
         driver = new ChromeDriver();
         driver.get("https://qa-scooter.praktikum-services.ru/");
     }
@@ -63,6 +68,18 @@ public class OrderFormTest {
 
         // Нажимаем на кнопку "Заказать"
         orderFormPage.clickFinalOrderButton();
+
+        // Ждем когда появится окно с подтверждением заказа
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@class='Button_Button__ra12g Button_Middle__1CSJM' and text()='Да']")));
+
+        //подтверждаем заказ
+        orderFormPage.clickOrderConfirmationYesButton();
+
+
+        WebElement successfulOrder = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='Order_ModalHeader__3FDaJ']")));
+
+        //проверяем что заказ успешно оформлен
+        assertTrue(successfulOrder.getText().contains("Заказ оформлен"));
     }
 
 

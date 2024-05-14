@@ -19,7 +19,7 @@ public class AccordionPage {
         return driver.findElements(By.xpath("//div[@data-accordion-component='AccordionItemButton']"));
     }
 
-    //ответы выпадающего списка, то бишь аккордиона
+    //ответы выпадающего списка аккордиона
     public List<WebElement> getAllAccordionItemPanels() {
         return driver.findElements(By.xpath("//div[@data-accordion-component='AccordionItemPanel']"));
     }

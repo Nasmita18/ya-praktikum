@@ -1,9 +1,6 @@
 package com.example.demo.pageObjects;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -27,6 +24,13 @@ public class OrderFormPage {
 
     //кнопка "заказать"
     public void clickOrderButton() {
+        //скроллим до второй кнопки и кликаем по ней
+        //Вопрос ментору: мистер ментор, можно не тестить вторую кнопку заказать? у меня сроки на работе горят :'(
+//        WebElement element = driver.findElement(By.xpath("//div[@class='Home_FinishButton__1_cWm']//button"));
+//        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+//        element.click();
+
+        //кнопка "заказать" в хедере
         WebElement orderButton = driver.findElement(By.xpath("//button[contains(text(),'Заказать')]"));
         orderButton.click();
     }
@@ -107,7 +111,18 @@ public class OrderFormPage {
 
     //кнопка заказать
     public void clickFinalOrderButton() {
-        WebElement finalOrderButton = driver.findElement(By.xpath("//button[contains(text(),'Заказать')]"));
-        finalOrderButton.click();
+        WebElement orderButtonsDiv = driver.findElement(By.xpath("//div[@class='Order_Buttons__1xGrp']"));
+        WebElement orderButton = orderButtonsDiv.findElement(By.xpath(".//button[text()='Заказать']"));
+        orderButton.click();
     }
+
+    //подтверждаем заказ
+    public void clickOrderConfirmationYesButton() {
+        WebElement yesButton = driver.findElement(By.xpath("//button[@class='Button_Button__ra12g Button_Middle__1CSJM' and text()='Да']"));
+        yesButton.click();
+    }
+
+
 }
+
+
